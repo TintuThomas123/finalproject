@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Place Order</title>
+</head>
+<body style="background-image: url({% static 'homeimg.jpg' %});background-repeat: no-repeat;background-size: cover;">
+<h1>PLACE ORDER </h1>
+<form action="order" method="post">
+    {% csrf_token %}
+{% if user.is_authenticated %}
+Hello {{user.username}}
+{% endif %}
+<input type="submit" value="Place order" >
+</form>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Order Placing</title>
+</head>
+<body style="background-image: url({% static 'regimg.jpg' %});background-repeat: no-repeat;background-size: cover;" >
+<h1 style=color:red>ORDER PLACING</h1>
+<!--<form action="register" method="post">-->
+<!--    {% csrf_token %}-->
+<!--    <input type="text" name="name" placeholder="Enter  name"> <br>-->
+<!--    <input type="date" name="dob" placeholder="Enter dob"><br>-->
+<!--    <input type="number" name="age" placeholder="Enter age"><br>-->
+<!--    <input type="text" name="gender" placeholder="Enter your gender"><br>-->
+<!--    <input type="number" name="phno" placeholder="Enter your phno"> <br>-->
+<!--    <input type="email" name="emailid" placeholder="Enter your mail id"><br>-->
+<!--    <input type="text" name="address" placeholder="Enter your address"><br>-->
+<!--    <input type="password" name="password" placeholder="Enter password"> <br>-->
+<!--    <input type="password" name="cpassword" placeholder="Enter confirm password"> <br>-->
+<!--    <input type="submit"> <br>-->
+<!--</form>-->
+
+<form method="post" id="orderplaceForm" data-courses-url="{% url 'ajax_load_courses' %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Submit">
+    <a class="btn btn-warning" href="/">logout</a>
+</form>
+
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script>
+    $("#id_deptname").change(function () {
+        const url = $("#orderplaceForm").attr("data-courses-url");  // get the url of the `load_cities` view
+        const deptnameId = $(this).val();  // get the selected country ID from the HTML input
+
+        $.ajax({                       // initialize an AJAX request
+            url: url,                    // set the url of the request (= /persons/ajax/load-courses/ )
+            data: {
+                'deptname_id': deptnameId       // add the country id to the GET parameters
+            },
+            success: function (data) {   // `data` is the return of the `load_courses` view function
+                $("#id_course").html(data);  // replace the contents of the city input with the data that came from the server
+                /*
+
+                let html_data = '<option value="">---------</option>';
+                data.forEach(function (city) {
+                    html_data += `<option value="${city.id}">${city.name}</option>`
+                });
+                console.log(html_data);
+                $("#id_city").html(html_data);
+
+                */
+            }
+        });
+
+    });
+</script>
+
+
+{% for msg in messages %}
+<h2>{{msg}}</h2>
+{% endfor %}
+</body>
+</html>
